@@ -1,4 +1,5 @@
 #include "Account.h"
+#include <iomanip>
 
 Account::Account(int accNo, std::string accName, double initialBalance) {
     accountNumber = accNo;
@@ -33,7 +34,7 @@ bool Account::withdraw(double amount) {
 }
 
 void Account::display() const {
-    std::cout << "Account Number: " << accountNumber << std::endl;
-    std::cout << "Name: " << name << std::endl;
-    std::cout << "Balance: Rs. " << balance << std::endl;
+    std::cout << std::left << std::setw(15) << accountNumber
+              << std::setw(15) << name
+              << "Rs. " << balance << std::endl;
 }
