@@ -2,6 +2,10 @@
 #define BST_H
 
 #include "Account.h"
+#include <string>
+
+using namespace std;
+
 
 class BST {
 private:
@@ -29,6 +33,8 @@ public:
     Account* search(int accountNumber);
     void remove(int accountNumber);
     void displayInorder() const;
+    void saveToFile(const string &filename);
+    void loadFromFile(const string &filename);
 };
 
 #endif

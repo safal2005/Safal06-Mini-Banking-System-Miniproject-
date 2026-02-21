@@ -1,4 +1,51 @@
 #include "BST.h"
+#include <fstream>
+#include <sstream>
+#include <functional>
+#include <iostream>
+using namespace std;
+
+// Save all accounts to a file (inorder)
+void BST::saveToFile(const string &filename) {
+    ofstream outFile(filename);
+    if (!outFile) return;
+
+    function<void(Node*)> saveInorder = [&](Node* node) {
+        if (!node) return;
+        saveInorder(node->left);
+        // Replace spaces in name with underscores
+        string safeName = node->data.getName();
+        for (char &c : safeName) if (c == ' ') c = '_';
+        outFile << node->data.getAccountNumber() << " " << safeName << " " << node->data.getBalance() << "\n";
+        saveInorder(node->right);
+    };
+
+    saveInorder(root);
+    outFile.close();
+}
+
+// Load accounts from a file
+void BST::loadFromFile(const string &filename) {
+    ifstream inFile(filename);
+    if (!inFile) return;
+
+    string line;
+    while (getline(inFile, line)) {
+        istringstream iss(line);
+        int accNum;
+        string name;
+        double bal;
+        if (iss >> accNum >> name >> bal) {
+            // Restore spaces if underscores were used
+            for (char &c : name) if (c == '_') c = ' ';
+            insert(Account(accNum, name, bal));
+        }
+    }
+    inFile.close();
+}
+
+
+
 
 // Constructor
 BST::BST() {
@@ -42,7 +89,6 @@ void BST::inorderRec(Node* node) const {
 
     inorderRec(node->left);
     node->data.display();
-    std::cout << "------------------\n";
     inorderRec(node->right);
 }
 

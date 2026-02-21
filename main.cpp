@@ -24,6 +24,7 @@ void setColor(int color) {
 
 int main() {
     BST bank;
+    bank.loadFromFile("accounts.txt");
     int choice;
 
     while (true) {
@@ -184,6 +185,7 @@ int main() {
         }
     }
 
+    bank.saveToFile("accounts.txt");
     cout << "\nExiting System. Goodbye!\n";
     return 0;
 }
