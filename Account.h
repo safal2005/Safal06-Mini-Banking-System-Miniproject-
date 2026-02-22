@@ -23,6 +23,8 @@ public:
     void deposit(double amount);
     bool withdraw(double amount);
 
+    void display();
+
     void display() const;
 };
 

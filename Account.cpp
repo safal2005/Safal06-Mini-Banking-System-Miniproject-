@@ -1,5 +1,6 @@
 #include "Account.h"
 #include <iomanip>
+#include<iostream>
 
 using namespace std;
 
@@ -35,8 +36,14 @@ bool Account::withdraw(double amount) {
     return false;
 }
 
-void Account::display() const {
-    cout << left << setw(15) << accountNumber
-         << setw(15) << name
-         << "Rs. " << balance << endl;
+
+
+
+
+void Account::display() {
+    std::cout << std::left << std::setw(12) << accountNumber
+              << std::left << std::setw(20) << name
+              << std::right << std::setw(12)
+              << "Rs. " << std::fixed << std::setprecision(2) << balance
+              << "\n";
 }

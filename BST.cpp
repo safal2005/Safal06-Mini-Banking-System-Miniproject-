@@ -3,6 +3,7 @@
 #include <sstream>
 #include <functional>
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 // Save all accounts to a file (inorder)
@@ -80,7 +81,18 @@ BST::Node* BST::insertRec(Node* node, Account acc) {
 }
 
 void BST::displayInorder() const {
-    inorderRec(root);
+    if (!root) {
+        std::cout << "No accounts found!\n";
+        return;
+    }
+
+    // Print headers
+    std::cout << std::left << std::setw(12) << "Acc No"
+              << std::left << std::setw(20) << "Name"
+              << "Balance\n";
+    std::cout << "----------------------------------------\n";
+
+    inorderRec(root); // call your existing recursive function
 }
 
 void BST::inorderRec(Node* node) const {

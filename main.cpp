@@ -2,217 +2,172 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
-#ifdef _WIN32
-#include <windows.h>
-#endif
 
 using namespace std;
 
-// Pause helper
-void pause() {
+// Pause function
+void pauseScreen() {
     cout << "\nPress Enter to continue...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.get();
+    system("cls");  // clear screen after pausing
 }
 
-// Color helper (Windows only)
-void setColor(int color) {
-#ifdef _WIN32
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
-#endif
-}
-
-int main() {
-    BST bank;
-    int choice;
-
-    // Load accounts at the start
- bank.loadFromFile("accounts.txt");
-
-// Save accounts before exiting
- bank.saveToFile("accounts.txt");
-
-    while (true) {
-        // Optional: clear screen for each menu iteration
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
-
-        cout << "\n=====================================\n";
-        cout << "        MINI BANKING SYSTEM\n";
-        cout << "=====================================\n";
-        cout << "1. Create Account\n";
-        cout << "2. Deposit\n";
-        cout << "3. Withdraw\n";
-        cout << "4. Delete Account\n";
-        cout << "5. Display All Accounts\n";
-        cout << "6. View Account Details\n";
-        cout << "7. Exit\n";
-        cin >> choice;
-
-        // Clear leftover input
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-        if (choice == 7) break;
-
-        int accNum;
-        string name;
-        double amount;
-
-        // Separator for operations
-        cout << "\n----------------------------------\n";
-
-        switch(choice) {
-            case 1: // Create Account
-                cout << "Enter Account Number: ";
-                cin >> accNum;
-                cin.ignore();
-                cout << "Enter Name: ";
-                getline(cin, name);
-                cout << "Enter Initial Balance: ";
-                cin >> amount;
-
-                if (amount < 0) {
-                    setColor(12);
-                    cout << "\n>>> INVALID INITIAL BALANCE <<<\n";
-                    setColor(7);
-                } else {
-                    bank.insert(Account(accNum, name, amount));
-                    setColor(10);
-                    cout << "\n>>> ACCOUNT CREATED SUCCESSFULLY <<<\n";
-                    setColor(7);
-                }
-                pause();
-                break;
-
-            case 2: // Deposit
-                cout << "Enter Account Number to Deposit: ";
-                cin >> accNum;
-                cout << "Enter Amount: ";
-                cin >> amount;
-                {
-                    Account* acc = bank.search(accNum);
-                    if (acc) {
-                        if (amount <= 0) {
-                            setColor(12);
-                            cout << "\n>>> INVALID AMOUNT <<<\n";
-                            setColor(7);
-                        } else {
-                            acc->deposit(amount);
-                            setColor(10);
-                            cout << "\n>>> DEPOSIT SUCCESSFUL <<<\n";
-                            setColor(7);
-                            cout << left << setw(15) << "Acc Number"
-                                 << setw(15) << "Name"
-                                 << "Balance\n";
-                            cout << "----------------------------------\n";
-                            acc->display();
-                        }
-                    } else {
-                        setColor(12);
-                        cout << "\n>>> ACCOUNT NOT FOUND <<<\n";
-                        setColor(7);
-                    }
-                    pause();
-                }
-                break;
-
-            case 3: // Withdraw
-                cout << "Enter Account Number to Withdraw: ";
-                cin >> accNum;
-                cout << "Enter Amount: ";
-                cin >> amount;
-                {
-                    Account* acc = bank.search(accNum);
-                    if (acc) {
-                        if(amount <= 0) {
-                            setColor(12);
-                            cout << "\n>>> INVALID AMOUNT <<<\n";
-                            setColor(7);
-                        } else if(acc->withdraw(amount)) {
-                            setColor(10);
-                            cout << "\n>>> WITHDRAWAL SUCCESSFUL <<<\n";
-                            setColor(7);
-                        } else {
-                            setColor(12);
-                            cout << "\n>>> INSUFFICIENT BALANCE <<<\n";
-                            setColor(7);
-                        }
-                        cout << left << setw(15) << "Acc Number"
-                             << setw(15) << "Name"
-                             << "Balance\n";
-                        cout << "----------------------------------\n";
-                        acc->display();
-                    } else {
-                        setColor(12);
-                        cout << "\n>>> ACCOUNT NOT FOUND <<<\n";
-                        setColor(7);
-                    }
-                    pause();
-                }
-                break;
-
-            case 4: // Delete
-                cout << "Enter Account Number to Delete: ";
-                cin >> accNum;
-                {
-                    Account* acc = bank.search(accNum);
-                    if (acc) {
-                        bank.remove(accNum);
-                        setColor(10);
-                        cout << "\n>>> ACCOUNT DELETED <<<\n";
-                        setColor(7);
-                    } else {
-                        setColor(12);
-                        cout << "\n>>> ACCOUNT NOT FOUND <<<\n";
-                        setColor(7);
-                    }
-                    pause();
-                }
-                break;
-
-            case 5: // Display All
-                cout << left << setw(15) << "Acc Number"
-                     << setw(15) << "Name"
-                     << "Balance\n";
-                cout << "----------------------------------\n";
-                bank.displayInorder();
-                pause();
-                break;
-
-            case 6: // View Account Details
-                cout << "Enter Account Number: ";
-                cin >> accNum;
-
-                {
-                    Account* acc = bank.search(accNum);
-
-                    if (acc != nullptr) {
-                        cout << "\nAccount Found!\n";
-                        cout << left << setw(15) << "Acc Number"
-                            << setw(15) << "Name"
-                            << "Balance\n";
-                        cout << "----------------------------------\n";
-                        acc->display();
-                    } else {
-                        cout << "\nAccount not found!\n";
-                    }
-
-                    pause();
-                }
-                break;
-
-            default:
-                setColor(12);
-                cout << "\n>>> INVALID CHOICE <<<\n";
-                setColor(7);
-                pause();
-        }
+// Display menu
+void displayMenu() {
+    cout << "=====================================\n";
+    cout << "|       MINI BANKING SYSTEM         |\n";
+    cout << "=====================================\n";
+    cout << "1. Create Account\n";
+    cout << "2. Deposit\n";
+    cout << "3. Withdraw\n";
+    cout << "4. Delete Account\n";
+    cout << "5. Display All Accounts\n";
+    cout << "6. View Account Details\n";
+    cout << "7. Exit\n";
+    cout << "-------------------------------------\n";
+    cout << "Enter your choice: ";
     }
 
-    
-    cout << "\nExiting System. Goodbye!\n";
+int main() {
+    BST tree;
+    tree.loadFromFile("accounts.txt");
+
+    int choice;
+
+    while (true) {
+         system("cls");
+        displayMenu();
+        cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        cout << "\n";
+
+        if (choice == 1) {
+            int accNum;
+            string name;
+            double balance;
+
+            cout << "------ Create Account ------\n";
+            cout << "Enter Account Number: ";
+            cin >> accNum;
+            cin.ignore();
+
+            cout << "Enter Name: ";
+            getline(cin, name);
+
+            cout << "Enter Initial Balance: ";
+            cin >> balance;
+
+            tree.insert(Account(accNum, name, balance));
+            tree.saveToFile("accounts.txt");
+
+            cout << "\nAccount Created Successfully!\n";
+            pauseScreen();
+        }
+
+        else if (choice == 2) {
+            int accNum;
+            double amount;
+
+            cout << "------ Deposit ------\n";
+            cout << "Enter Account Number: ";
+            cin >> accNum;
+
+            cout << "Enter Amount: ";
+            cin >> amount;
+
+            Account* acc = tree.search(accNum);
+            if (acc) {
+                    acc->deposit(amount);
+                    tree.saveToFile("accounts.txt");
+                    std::cout << "\nDeposit Successful!\n";
+                    std::cout << "Updated Balance: Rs. " << acc->getBalance() << "\n";
+                } else {
+                cout << "\nAccount Not Found!\n";
+            }
+
+            pauseScreen();
+        }
+
+        else if (choice == 3) {
+            int accNum;
+            double amount;
+
+            cout << "------ Withdraw ------\n";
+            cout << "Enter Account Number: ";
+            cin >> accNum;
+
+            cout << "Enter Amount: ";
+            cin >> amount;
+
+            Account* acc = tree.search(accNum);
+            if (acc) {
+                if (acc->withdraw(amount)) {
+                    tree.saveToFile("accounts.txt");
+                    cout << "\nWithdrawal Successful!\n";
+                    cout << "Remaining Balance: Rs. " 
+                        << std::fixed << std::setprecision(2) 
+                        << acc->getBalance() << "\n";
+                } else {
+                    cout << "\nInsufficient Balance!\n";
+                }
+            } else {
+                cout << "\nAccount Not Found!\n";
+            }
+
+            pauseScreen();
+        }
+
+        else if (choice == 4) {
+            int accNum;
+
+            cout << "------ Delete Account ------\n";
+            cout << "Enter Account Number: ";
+            cin >> accNum;
+
+            tree.remove(accNum);
+            tree.saveToFile("accounts.txt");
+
+            cout << "\nAccount Deleted (if existed).\n";
+            pauseScreen();
+        }
+
+        else if (choice == 5) {
+            cout << "------ All Accounts ------\n";
+            tree.displayInorder();   // use your existing function
+            pauseScreen();
+        }
+
+        else if (choice == 6) {
+            int accNum;
+            cout << "------ View Account ------\n";
+            cout << "Enter Account Number: ";
+            cin >> accNum;
+
+            Account* acc = tree.search(accNum);
+            if (acc) {
+                acc->display();
+            } else {
+                cout << "\nAccount Not Found!\n";
+            }
+
+            pauseScreen();
+        }
+
+        else if (choice == 7) {
+            tree.saveToFile("accounts.txt");
+            cout << "\nExiting Program...\n";
+            break;
+        }
+
+        else {
+            cout << "\nInvalid Choice!\n";
+            pauseScreen();
+        }
+
+        cout << "\n\n";
+    }
+
     return 0;
 }
