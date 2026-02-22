@@ -24,8 +24,13 @@ void setColor(int color) {
 
 int main() {
     BST bank;
-    bank.loadFromFile("accounts.txt");
     int choice;
+
+    // Load accounts at the start
+ bank.loadFromFile("accounts.txt");
+
+// Save accounts before exiting
+ bank.saveToFile("accounts.txt");
 
     while (true) {
         // Optional: clear screen for each menu iteration
@@ -43,14 +48,14 @@ int main() {
         cout << "3. Withdraw\n";
         cout << "4. Delete Account\n";
         cout << "5. Display All Accounts\n";
-        cout << "6. Exit\n";
-        cout << "Enter your choice: ";
+        cout << "6. View Account Details\n";
+        cout << "7. Exit\n";
         cin >> choice;
 
         // Clear leftover input
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        if (choice == 6) break;
+        if (choice == 7) break;
 
         int accNum;
         string name;
@@ -177,6 +182,28 @@ int main() {
                 pause();
                 break;
 
+            case 6: // View Account Details
+                cout << "Enter Account Number: ";
+                cin >> accNum;
+
+                {
+                    Account* acc = bank.search(accNum);
+
+                    if (acc != nullptr) {
+                        cout << "\nAccount Found!\n";
+                        cout << left << setw(15) << "Acc Number"
+                            << setw(15) << "Name"
+                            << "Balance\n";
+                        cout << "----------------------------------\n";
+                        acc->display();
+                    } else {
+                        cout << "\nAccount not found!\n";
+                    }
+
+                    pause();
+                }
+                break;
+
             default:
                 setColor(12);
                 cout << "\n>>> INVALID CHOICE <<<\n";
@@ -185,7 +212,7 @@ int main() {
         }
     }
 
-    bank.saveToFile("accounts.txt");
+    
     cout << "\nExiting System. Goodbye!\n";
     return 0;
 }
