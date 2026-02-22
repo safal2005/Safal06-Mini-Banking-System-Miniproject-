@@ -4,7 +4,7 @@
         {
             "label": "Build & Run MiniBank",
             "type": "shell",
-            "command": "g++ main.cpp Account.cpp BST.cpp -o main.exe; ./main.exe",
+            "command": "g++ *.cpp -o main.exe; if ($?) { ./main.exe; Read-Host 'Press Enter to exit...' }",
             "group": {
                 "kind": "build",
                 "isDefault": true
