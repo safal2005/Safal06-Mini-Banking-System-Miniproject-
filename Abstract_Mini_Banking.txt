@@ -1,0 +1,14 @@
+ABSTRACT
+
+Data Structures and Algorithms
+
+Banking systems are something we interact with almost daily, yet understanding how they manage thousands of accounts efficiently isn't always clear to students learning data structures. The purpose of this mini project was to develop a Mini Banking System using C++ that demonstrates how Binary Search Trees (BST) can be applied to solve real-world problems like account management.
+
+The system handles essential banking operations including account creation, deposits, withdrawals, account deletion, and viewing account details. All accounts are organized using a Binary Search Tree data structure, which provides efficient searching, insertion, and deletion operations. The visualizer was developed using object-oriented programming principles with a modular design, separating the Account class, BST class, and user interface into distinct components.
+
+One of the key features I implemented was data persistence through file handling, ensuring that all account information is saved when the program closes and automatically loaded when it restarts. This makes the system practical for real-world use rather than just a theoretical exercise.
+
+The final result is a functional console-based banking application that demonstrates the practical importance of choosing the right data structure. Through this project, I gained hands-on experience with BST operations, recursive algorithms, file I/O, and creating user-friendly interfaces. This project serves as a practical learning tool for understanding how data structures are used in actual applications and can be further enhanced by implementing self-balancing trees, adding security features, or developing a graphical user interface.
+
+Keywords: Binary Search Tree, Banking System, Data Structures, Account Management, File Handling, C++ Programming
+
