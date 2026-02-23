@@ -32,7 +32,7 @@ Mini-Banking-System/
 ├── accounts.txt           # Where account data is saved
 ├── banking.exe            # Ready-to-run program
 ├── main.exe               # Alternative executable
-├── report.pdf             # Complete project documentation
+├── projectreport_safalbastola_06.pdf  # Complete project documentation
 ├── Abstract_Mini_Banking.txt  # Quick project summary
 ├── imagesforreport/       # Diagrams and screenshots
 ├── .vscode/               # My VS Code settings
@@ -79,7 +79,7 @@ These are compiled versions ready to run on Windows. Just double-click and you'r
 
 ### Documentation
 
-#### `report.pdf`
+#### `projectreport_safalbastola_06.pdf`
 This is the complete project report with everything - introduction, design, implementation details, algorithms, testing results, and conclusions. If you want to understand the project in depth, check this out.
 
 #### `Abstract_Mini_Banking.txt`
@@ -264,7 +264,7 @@ This project taught me a lot:
 
 ## 📄 Documentation
 
-For complete technical documentation, algorithms, design decisions, and detailed analysis, check out **report.pdf** in this repository. It includes:
+For complete technical documentation, algorithms, design decisions, and detailed analysis, check out **projectreport_safalbastola_06.pdf** in this repository. It includes:
 - Full introduction and background
 - System design and architecture
 - Detailed implementation with algorithms
